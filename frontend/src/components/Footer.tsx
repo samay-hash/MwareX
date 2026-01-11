@@ -27,17 +27,17 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Mail, href: 'mailto:hello@approvalhub.com', label: 'Email' },
+    { icon: Youtube, href: 'https://www.youtube.com/@futxsamay', label: 'YouTube' },
+    { icon: Twitter, href: 'https://x.com/ChemistGamer1', label: 'Twitter' },
+    { icon: Github, href: 'https://github.com/samay-hash', label: 'GitHub' },
+    { icon: Mail, href: 'mailto:samay3076@gmail.com', label: 'Email' },
   ];
 
   return (
     <footer className="relative border-t border-white/5">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-red-900/5 to-transparent pointer-events-none" />
-      
+
       <div className="relative max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
@@ -47,7 +47,7 @@ export default function Footer() {
                 <Play className="w-5 h-5 text-white fill-white" />
               </div>
               <span className="text-xl font-bold text-white">
-                Approval<span className="text-red-500">Hub</span>
+                Fut<span className="text-red-500">Tube</span>
               </span>
             </Link>
             <p className="text-gray-400 text-sm mb-6 max-w-sm">
@@ -124,7 +124,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">
-            © {currentYear} ApprovalHub. All rights reserved.
+            © {currentYear} FutTube. All rights reserved.
           </p>
           <p className="text-gray-500 text-sm">
             Made with ❤️ for content creators everywhere

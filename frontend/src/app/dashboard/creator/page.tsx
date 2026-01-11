@@ -52,18 +52,23 @@ export default function CreatorDashboard() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [avatarLetter, setAvatarLetter] = useState("U");
 
-  const userData = getUserData();
+  const [userData, setUserData] = useState<{ name?: string; email?: string } | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    // Check auth and load user data only on client side to avoid hydration mismatch
+    const data = getUserData();
+    if (!isAuthenticated() || !data) {
       router.push("/auth/signin");
       return;
     }
+    setUserData(data);
+
     fetchVideos();
-    // Set avatar letter after component mounts
-    const letter = userData?.name?.[0] || userData?.email?.[0] || "U";
+
+    // Set avatar letter
+    const letter = data?.name?.[0] || data?.email?.[0] || "U";
     setAvatarLetter(letter);
-  }, [router]); // Removed userData dependency to prevent re-runs
+  }, [router]);
 
   const fetchVideos = async () => {
     setIsLoading(true);
@@ -185,7 +190,7 @@ export default function CreatorDashboard() {
               <Play className="w-5 h-5 text-white fill-white" />
             </div>
             <span className="text-lg font-bold text-white">
-              Approval<span className="text-red-500">Hub</span>
+              Fut<span className="text-red-500">Tube</span>
             </span>
           </div>
         </div>
@@ -325,21 +330,19 @@ export default function CreatorDashboard() {
               <div className="flex rounded-xl bg-white/5 p-1">
                 <button
                   onClick={() => setActiveTab("pending")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    activeTab === "pending"
-                      ? "bg-red-500 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === "pending"
+                    ? "bg-red-500 text-white"
+                    : "text-gray-400 hover:text-white"
+                    }`}
                 >
                   Pending
                 </button>
                 <button
                   onClick={() => setActiveTab("all")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    activeTab === "all"
-                      ? "bg-red-500 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === "all"
+                    ? "bg-red-500 text-white"
+                    : "text-gray-400 hover:text-white"
+                    }`}
                 >
                   All
                 </button>

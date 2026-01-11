@@ -50,20 +50,41 @@ router.post("/:id/approve", userAuth, async (req, res) => {
   try {
     const video = await videoModel.findById(req.params.id);
     if (!video) {
-      return res.status(404).json({ message: " video Not Found" });
+      return res.status(404).json({ message: "Video Not Found" });
     }
+
+    // Check if user has connected YouTube
+    const user = await userModel.findById(req.userId);
+    if (!user || !user.youtubeTokens || !user.youtubeTokens.refreshToken) {
+      return res.status(400).json({
+        message: "YouTube account not connected. Please go to Settings and connect your channel."
+      });
+    }
+
     video.status = "approved";
     await video.save();
-    //uploaded to youtube succesfully:
-    const yt = await uploadToYoutube(video, req.userId);
-    video.status = "uploaded";
-    video.youtubeId = yt.id;
-    await video.save();
 
-    res.json({ message: "Video approved" });
+    // Upload to YouTube
+    try {
+      const yt = await uploadToYoutube(video, req.userId);
+      video.status = "uploaded";
+      video.youtubeId = yt.id;
+      await video.save();
+      res.json({ message: "Video approved and uploaded to YouTube!" });
+    } catch (uploadErr) {
+      console.error("YouTube Upload Error:", uploadErr);
+      // Revert status if upload fails, or keep as approved but not uploaded?
+      // For now, let's keep it approved but warn the user.
+      // video.status = "pending"; await video.save(); 
+      res.status(500).json({
+        message: "Video approved locally, but YouTube upload failed. Check your YouTube connection.",
+        error: uploadErr.message
+      });
+    }
+
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Upload failed" });
+    res.status(500).json({ message: "Approval process failed", error: err.message });
   }
 });
 
