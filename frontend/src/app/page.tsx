@@ -198,11 +198,18 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-8">
-            {['Terms', 'Privacy', 'Security', 'Contact'].map((item) => (
-              <Link key={item} href="#" className="text-sm font-medium text-gray-400 hover:text-primary transition-colors">
-                {item}
-              </Link>
-            ))}
+            <Link href="/terms" className="text-sm font-medium text-gray-400 hover:text-primary transition-colors">
+              Terms
+            </Link>
+            <Link href="/privacy-policy" className="text-sm font-medium text-gray-400 hover:text-primary transition-colors">
+              PrivacyPolicy
+            </Link>
+            <Link href="#" className="text-sm font-medium text-gray-400 hover:text-primary transition-colors">
+              Security
+            </Link>
+            <Link href="mailto:support@mwarex.com" className="text-sm font-medium text-gray-400 hover:text-primary transition-colors">
+              Contact
+            </Link>
           </div>
 
           <div className="text-sm text-gray-500">© 2026 MWareX Inc. All locked down.</div>
