@@ -77,26 +77,25 @@ router.post("/:id/approve", userAuth, async (req, res) => {
       });
     }
 
-    video.status = "approved";
+    video.status = "processing";
     await video.save();
 
+    // Send immediate response to prevent timeout
+    res.json({ message: "Video approved. Uploading to YouTube in background..." });
 
-    try {
-      const yt = await uploadToYoutube(video, req.userId);
-      video.status = "uploaded";
-      video.youtubeId = yt.id;
-      await video.save();
-      res.json({ message: "Video approved and uploaded to YouTube!" });
-    } catch (uploadErr) {
-      console.error("YouTube Upload Error:", uploadErr);
-      // Revert status if upload fails, or keep as approved but not uploaded?
-      // For now, let's keep it approved but warn the user.
-      // video.status = "pending"; await video.save(); 
-      res.status(500).json({
-        message: "Video approved locally, but YouTube upload failed. Check your YouTube connection.",
-        error: uploadErr.message
+    // Background Upload Task (Fire & Forget)
+    uploadToYoutube(video, req.userId)
+      .then(async (yt) => {
+        console.log("YouTube Upload Success:", yt.id);
+        video.status = "uploaded";
+        video.youtubeId = yt.id;
+        await video.save();
+      })
+      .catch(async (uploadErr) => {
+        console.error("YouTube Upload Error (Background):", uploadErr);
+        video.status = "upload_failed";
+        await video.save();
       });
-    }
 
   } catch (err) {
     console.log(err);
