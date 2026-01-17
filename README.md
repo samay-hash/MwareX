@@ -2,7 +2,10 @@
 
 # 🎬 MwareX
 
-### *The Invisible Approval Layer for YouTube Creators*
+### *MwareX is a secure video collaboration platform designed for YouTube creators and editors.
+Creators can send editing requests, while editors upload finalized videos without ever accessing channel credentials.
+The platform eliminates unsafe credential sharing using OAuth 2.0 authentication and Cloudinary-powered video storage and streaming, ensuring secure and efficient data handling.
+Built with Next.js 14, Node.js, MongoDB Atlas, and YouTube Data API v3, MwareX enables one-click video approval and seamless background uploads directly to YouTube—no downloads required.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" />
@@ -37,10 +40,10 @@ YouTube creators face a **dangerous dilemma**:
 │  Traditional Workflow (❌ INSECURE)                      │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  1. Creator shares YouTube password with editor 😱       │
+│  1. Creator shares YouTube password with editor        │
 │  2. Editor downloads 10GB render (wasted hours) ⏳       │
-│  3. Creator manually re-uploads to YouTube 🐌            │
-│  4. Channel security = ZERO 🔓                           │
+│  3. Creator manually re-uploads to YouTube            │
+│  4. Channel security = ZERO                         │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
